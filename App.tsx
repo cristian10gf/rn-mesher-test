@@ -90,7 +90,8 @@ export default function App() {
 
   const handleExport = async () => {
     try {
-      const result = await scannerRef.current?.exportMesh(`scan-${Date.now()}`);
+      const suffix = Math.random().toString(36).slice(2, 8);
+      const result = await scannerRef.current?.exportMesh(`scan-${Date.now()}-${suffix}`);
       if (result?.path) {
         setExportPath(result.path);
         Alert.alert('Malla exportada', result.path);
@@ -144,8 +145,9 @@ export default function App() {
       <View style={styles.controls}>
         <Text style={styles.title}>Escáner LiDAR</Text>
         <Text style={styles.message}>
-          Anchors: {stats?.anchorCount ?? 0} | Vértices: {stats?.vertexCount ?? 0} | Caras:{' '}
-          {stats?.faceCount ?? 0}
+          {`Anchors: ${stats?.anchorCount ?? 0} | Vértices: ${stats?.vertexCount ?? 0} | Caras: ${
+            stats?.faceCount ?? 0
+          }`}
         </Text>
         {exportPath ? <Text style={styles.path}>Último OBJ: {exportPath}</Text> : null}
         <Pressable style={styles.button} onPress={handleToggleScan}>
